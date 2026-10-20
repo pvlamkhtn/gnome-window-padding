@@ -1,0 +1,67 @@
+#!/bin/bash
+# Control the Window Padding GNOME extension from the terminal.
+#
+#   win-padding                 show current state
+#   win-padding on|off|toggle   enable / disable the padding (instant)
+#   win-padding set 12          same padding on all four sides
+#   win-padding set 8 16        vertical (top+bottom), horizontal (left+right)
+#   win-padding set 8 16 12 4   top right bottom left (CSS order)
+#   win-padding top 20          change one side (top|right|bottom|left)
+#   win-padding reset           back to the defaults (on, 10px everywhere)
+#   win-padding prefs           open the settings window
+set -euo pipefail
+
+UUID="window-padding@pvlamkhtn.github.io"
+SCHEMA="org.gnome.shell.extensions.window-padding"
+SCHEMA_DIR="$HOME/.local/share/gnome-shell/extensions/$UUID/schemas"
+MAX=300
+
+gs() { gsettings --schemadir "$SCHEMA_DIR" "$@"; }
+
+usage() { sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'; exit "${1:-0}"; }
+
+check_px() {
+  [[ "$1" =~ ^[0-9]+$ ]] && (( $1 <= MAX )) || { echo "Invalid padding '$1' (0-$MAX)" >&2; exit 1; }
+}
+
+status() {
+  echo "enabled: $(gs get "$SCHEMA" enabled)"
+  printf 'padding: top=%s right=%s bottom=%s left=%s\n' \
+    "$(gs get "$SCHEMA" padding-top)" "$(gs get "$SCHEMA" padding-right)" \
+    "$(gs get "$SCHEMA" padding-bottom)" "$(gs get "$SCHEMA" padding-left)"
+  gnome-extensions info "$UUID" 2>/dev/null | grep -i 'state' || echo "extension: not loaded yet (log out and back in once after install)"
+}
+
+[[ -d "$SCHEMA_DIR" ]] || { echo "Extension not installed ($SCHEMA_DIR missing). Run install.sh first." >&2; exit 1; }
+
+case "${1:-status}" in
+  status) status ;;
+  on) gs set "$SCHEMA" enabled true; status ;;
+  off) gs set "$SCHEMA" enabled false; status ;;
+  toggle)
+    if [[ "$(gs get "$SCHEMA" enabled)" == "true" ]]; then gs set "$SCHEMA" enabled false; else gs set "$SCHEMA" enabled true; fi
+    status ;;
+  set)
+    shift
+    for v in "$@"; do check_px "$v"; done
+    case $# in
+      1) t=$1 r=$1 b=$1 l=$1 ;;
+      2) t=$1 r=$2 b=$1 l=$2 ;;
+      4) t=$1 r=$2 b=$3 l=$4 ;;
+      *) usage 1 ;;
+    esac
+    gs set "$SCHEMA" padding-top "$t"
+    gs set "$SCHEMA" padding-right "$r"
+    gs set "$SCHEMA" padding-bottom "$b"
+    gs set "$SCHEMA" padding-left "$l"
+    status ;;
+  top|right|bottom|left)
+    [[ $# -eq 2 ]] || usage 1
+    check_px "$2"
+    gs set "$SCHEMA" "padding-$1" "$2"
+    status ;;
+  reset) gs reset-recursively "$SCHEMA"; status ;;
+  prefs) gnome-extensions prefs "$UUID" ;;
+  -h|--help|help) usage ;;
+  *) usage 1 ;;
+esac

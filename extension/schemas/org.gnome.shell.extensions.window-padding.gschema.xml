@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.window-padding"
+          path="/org/gnome/shell/extensions/window-padding/">
+    <key name="enabled" type="b">
+      <default>true</default>
+      <summary>Enable window padding</summary>
+      <description>When false, the screen work area is left exactly as GNOME computes it.</description>
+    </key>
+    <key name="padding-top" type="i">
+      <range min="0" max="300"/>
+      <default>10</default>
+      <summary>Top padding (px)</summary>
+    </key>
+    <key name="padding-right" type="i">
+      <range min="0" max="300"/>
+      <default>10</default>
+      <summary>Right padding (px)</summary>
+    </key>
+    <key name="padding-bottom" type="i">
+      <range min="0" max="300"/>
+      <default>10</default>
+      <summary>Bottom padding (px)</summary>
+    </key>
+    <key name="padding-left" type="i">
+      <range min="0" max="300"/>
+      <default>10</default>
+      <summary>Left padding (px)</summary>
+    </key>
+  </schema>
+</schemalist>
