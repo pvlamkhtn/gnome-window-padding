@@ -7,7 +7,7 @@ between windows and the screen edges. Each side (top, right, bottom, left) is
 configurable, changes apply instantly, and switching it off restores the stock
 GNOME layout.
 
-Tested on **GNOME Shell 46** (Ubuntu 24.04, Wayland).
+Supports **GNOME Shell 46–51**; tested on GNOME Shell 46 (Ubuntu 24.04, Wayland).
 
 _Tiếng Việt: [README.vi.md](README.vi.md)_
 

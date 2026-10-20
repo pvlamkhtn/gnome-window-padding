@@ -3,7 +3,12 @@
   "name": "Window Padding",
   "description": "Omarchy-style padding around windows: shrinks the usable screen area by a configurable top/right/bottom/left padding, so maximized, snapped and tiled windows keep a gap from the screen edges. Fullscreen windows are not affected.",
   "shell-version": [
-    "46"
+    "46",
+    "47",
+    "48",
+    "49",
+    "50",
+    "51"
   ],
   "settings-schema": "org.gnome.shell.extensions.window-padding",
   "url": "https://github.com/pvlamkhtn/gnome-window-padding"
