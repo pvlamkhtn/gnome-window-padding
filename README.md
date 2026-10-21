@@ -26,6 +26,8 @@ the existing struts on every edge, so:
 | Free-floating | Keeps its size, just isn't placed inside the padding |
 
 Top padding is measured from the bottom of the top bar, not from the screen edge.
+The Activities overview also lays itself out inside the work area, so it shrinks
+by the same padding; with large values it gets a visibly wider empty border.
 
 ![Padding changing live from 0 to 32px on a maximized window](docs/images/demo.gif)
 

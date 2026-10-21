@@ -136,6 +136,8 @@ gsettings --schemadir ~/.local/share/gnome-shell/extensions/tilingshell@ferrarod
   GNOME). Omarchy bo góc được vì Hyprland vẽ bo góc ở cấp compositor, còn
   extension này không thay đổi điều đó.
 - Desktop icons (DING) cũng nằm trong work area, nên lùi vào theo padding.
+- **Overview (Activities):** Overview cũng được xếp bên trong work area, nên co
+  lại theo đúng padding. Với padding lớn, viền trống quanh Overview dày lên rõ.
 - Hỗ trợ GNOME Shell 46–51 (khai báo trong `metadata.json`); đã test thực tế trên GNOME Shell 46.
 
 ---
